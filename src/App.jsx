@@ -6,7 +6,9 @@ import * as Yup from 'yup';
 
 function App() {
   const [submittedValues, setSubmittedValues] = useState([]);
-
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  console.log('lastName', lastName)
   useEffect(() => {
     const storedValues = JSON.parse(localStorage.getItem('submittedValues'));
     if (storedValues) {
@@ -43,12 +45,12 @@ function App() {
             <div className="rectangle">
               <div className="triangle top-right">
                 <div className="centered-text">
-                  {submittedValues.length > 0 ? submittedValues[submittedValues.length - 1].firstName.charAt(0) : 'F'}
+                  {firstName ? firstName.charAt(0) : 'F'}
                 </div>
               </div>
               <div className="triangle bottom-left">
                 <div className="centered-text">
-                  {submittedValues.length > 0 ? submittedValues[submittedValues.length - 1].lastName.charAt(0) : 'L'}
+                  {lastName ? lastName.charAt(0) : 'L'}
                 </div>
               </div>
             </div>
@@ -65,7 +67,10 @@ function App() {
                     name="firstName"
                     placeholder="First Name"
                     type="text"
-                    onChange={formik.handleChange}
+                    onChange={(e)=> {
+                      formik.handleChange(e);
+                      setFirstName(e.target.value)
+                    }}
                     onBlur={formik.handleBlur}
                     value={formik.values.firstName}
                     invalid={formik.touched.firstName && !!formik.errors.firstName}
@@ -81,7 +86,10 @@ function App() {
                     name="lastName"
                     placeholder="Last Name"
                     type="text"
-                    onChange={formik.handleChange}
+                    onChange={(e)=> {
+                      formik.handleChange(e);
+                      setLastName(e.target.value)
+                    }}
                     onBlur={formik.handleBlur}
                     value={formik.values.lastName}
                     invalid={formik.touched.lastName && !!formik.errors.lastName}
